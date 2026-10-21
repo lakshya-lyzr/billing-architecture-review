@@ -1,0 +1,437 @@
+{
+  "date": "2026-10-21 Asia/Kolkata",
+  "architecture": "Pagos authoritative credit wallet and pricing/usage ledger; Autumn price-only plans and billing APIs; Stripe Billing invoices/payments/recovery",
+  "base_commit": "000358aedaced4d8a9afc862328f2316d4d6070f",
+  "runtime_image": "autumn-local-runtime:000358ae",
+  "reservation_fixes_required": false,
+  "application_source_modified": false,
+  "pagos_source_modified": false,
+  "passing_checks": 32,
+  "checks_include_setup_provenance_and_partial_browser_checks": true,
+  "checks": {
+    "seed_price_only_plans": {
+      "status": "passed",
+      "evidence": {
+        "plans_with_no_items": 6,
+        "stripe_account_verified": true
+      }
+    },
+    "independent_plans_consolidated_initial": {
+      "status": "passed",
+      "evidence": {
+        "one_stripe_subscription": true,
+        "one_paid_invoice_cents": 3000,
+        "autumn_customer_state": [
+          "id",
+          "name",
+          "email",
+          "created_at",
+          "fingerprint",
+          "stripe_id",
+          "env",
+          "metadata",
+          "send_email_receipts",
+          "billing_controls",
+          "subscriptions",
+          "purchases",
+          "licenses",
+          "balances",
+          "flags",
+          "config",
+          "processors"
+        ]
+      }
+    },
+    "consolidated_recurring": {
+      "status": "passed",
+      "evidence": {
+        "paid": true,
+        "cents": 3000,
+        "lines": [
+          1000,
+          2000
+        ]
+      }
+    },
+    "immediate_topup_no_autumn_grant": {
+      "status": "passed",
+      "evidence": {
+        "cents": 500,
+        "separate_paid_invoice": true,
+        "no_autumn_credits": true
+      }
+    },
+    "upgrade_preview_and_isolation": {
+      "status": "passed",
+      "evidence": {
+        "preview_succeeded": true,
+        "upgrade_invoice_cents": 997,
+        "architect_preserved": true,
+        "subscription_count": 1
+      }
+    },
+    "product_cancel_and_remaining_renewal": {
+      "status": "passed",
+      "evidence": {
+        "remaining_product_cents": 2000,
+        "architect_active": true,
+        "alpha_cancelled": true,
+        "paid": true
+      }
+    },
+    "later_product_alignment": {
+      "status": "passed",
+      "evidence": {
+        "anchor_preserved": true,
+        "immediate_proration_cents": 1806,
+        "next_paid_cents": 3000
+      }
+    },
+    "mixed_interval_initial_and_monthly": {
+      "status": "passed",
+      "evidence": {
+        "initial_paid_cents": 13000,
+        "first_monthly_renewal_cents": 1000,
+        "one_subscription": true
+      }
+    },
+    "commitment_negotiated_pricing_and_idempotent_overage": {
+      "status": "passed",
+      "evidence": {
+        "below_allowance_cents": 3000,
+        "above_allowance_cents": 4000,
+        "standard_80_units_cents": 8000,
+        "negotiated_80_units_cents": 4000,
+        "native_customer_override": true,
+        "pagos_prices_overage": true,
+        "stripe_pending_invoice_items_required": true,
+        "overage_retries_deduped": true
+      }
+    },
+    "custom_invoice_preview_no_side_effects": {
+      "status": "passed",
+      "evidence": {
+        "autumn_invoice_preview": true,
+        "no_invoice_or_payment_created": true,
+        "preview_keys": [
+          "currency",
+          "lines",
+          "subtotal",
+          "discount_total",
+          "tax",
+          "total",
+          "invoice_credits",
+          "amount_due",
+          "issue_date",
+          "due_date"
+        ]
+      }
+    },
+    "upgrade_preview_matches_paid_invoice": {
+      "status": "passed",
+      "evidence": {
+        "preview_cents": 997,
+        "actual_invoice_cents": 997
+      }
+    },
+    "manual_credit_note_and_refund": {
+      "status": "passed",
+      "evidence": {
+        "native_autumn_credit_note": true,
+        "preview": true,
+        "stripe_credit_note_cents": 100,
+        "stripe_credit_note_issued": true,
+        "refund_cents": 100,
+        "no_lago_premium_equivalent_gate": true,
+        "send_email": false
+      }
+    },
+    "failed_topup_same_invoice_recovery": {
+      "status": "passed",
+      "evidence": {
+        "declined_attach_http": 200,
+        "failed_purchase_no_paid_invoice": true,
+        "same_invoice_recovered_cents": 500,
+        "autumn_paid_state_synced": true,
+        "pagos_grant_policy_required": true
+      }
+    },
+    "product_scoped_promotion": {
+      "status": "passed",
+      "evidence": {
+        "alpha_only_discount": true,
+        "initial_paid_cents": 2900,
+        "next_consolidated_paid_cents": 2900,
+        "native_autumn_discount_attach": true,
+        "stripe_coupon_config_required": true,
+        "human_promotion_code_required_not_stripe_object_id": true,
+        "promotion_must_target_a_product_in_the_order": true
+      }
+    },
+    "trial_then_paid_subscription": {
+      "status": "passed",
+      "evidence": {
+        "card_required_trial_days": 7,
+        "initial_paid_cents": 0,
+        "trial_conversion_paid_cents": 1000,
+        "no_credit_features": true
+      }
+    },
+    "customer_portal_card_setup_and_invoice_pdf": {
+      "status": "passed",
+      "evidence": {
+        "portal_generated": true,
+        "setup_checkout_generated": true,
+        "valid_invoice_pdf_bytes": 83619,
+        "browser_checkout_3ds_not_completed": true
+      }
+    },
+    "unpaid_checkout_has_no_paid_grant_source": {
+      "status": "passed",
+      "evidence": {
+        "checkout_url_generated": true,
+        "paid_purchase": false,
+        "no_grant_until_paid": true,
+        "browser_completion_not_tested": true
+      }
+    },
+    "three_ds_unpaid_state_requires_customer_action": {
+      "status": "passed",
+      "evidence": {
+        "attach_http": 200,
+        "invoice_unpaid": true,
+        "intent_states": [
+          "requires_action"
+        ],
+        "authentication_completion_not_tested": true
+      }
+    },
+    "recurring_failure_retry_and_recovery": {
+      "status": "passed",
+      "evidence": {
+        "failed_invoice_open_without_paid_grant": true,
+        "first_attempts": 1,
+        "automatic_retry_observed": true,
+        "automatic_retry_was_scheduled": true,
+        "recovered_same_invoice_cents": 1000,
+        "stripe_recovery_settings_need_production_review": true
+      }
+    },
+    "duplicate_plan_attach_no_double_charge": {
+      "status": "passed",
+      "evidence": {
+        "duplicate_attach_http": 409,
+        "additional_invoice_count": 0,
+        "outbox_reconciliation_still_required": true
+      }
+    },
+    "zero_entitlements_after_payment_recovery": {
+      "status": "passed",
+      "evidence": {
+        "entitlements": 0
+      }
+    },
+    "pending_overage_cannot_leak_into_topup_invoice": {
+      "status": "passed",
+      "evidence": {
+        "topup_cents": 500,
+        "overage_cents": 1000,
+        "recurring_invoice_cents": 4000,
+        "topup_did_not_steal_pending_overage": true
+      }
+    },
+    "late_overage_carries_to_next_invoice_once": {
+      "status": "passed",
+      "evidence": {
+        "closed_invoice_unchanged_cents": 4000,
+        "next_invoice_cents": 3200,
+        "late_usage_billed_once": true,
+        "carry_forward_policy_requires_approval": true
+      }
+    },
+    "stripe_overage_mirrors_into_autumn_invoice_lines": {
+      "status": "passed",
+      "evidence": {
+        "above": {
+          "autumn_total": 40,
+          "stripe_cents": 4000,
+          "autumn_item_amounts": [
+            10,
+            30
+          ]
+        },
+        "negotiated": {
+          "autumn_total": 40,
+          "stripe_cents": 4000,
+          "autumn_item_amounts": [
+            15,
+            25
+          ]
+        }
+      }
+    },
+    "no_autumn_wallet_rows_or_spending_apis": {
+      "status": "passed",
+      "evidence": {
+        "customers": 15,
+        "entitlements": 0,
+        "products": 37,
+        "autumn_balance_reservation_usage_api_calls": 0,
+        "all_customer_balances_empty": true,
+        "empty_default_plan_override_required_in_existing_org": true
+      }
+    },
+    "pagos_paid_inbox_refund_ledger_reporting_fixture": {
+      "status": "passed",
+      "evidence": {
+        "actual_native_events_replayed": 15,
+        "failed_events_replayed_without_grants": 3,
+        "main_org_remaining_credits": 19,
+        "other_org_remaining_credits": 5,
+        "organization_isolation": true,
+        "cross_product_component_deduplication": true,
+        "provider_cost_cents": 200,
+        "customer_charge_cents": 1500,
+        "separate_sales_and_consumption": true,
+        "recognized_revenue_claimed": false,
+        "production_wallet_implemented": false,
+        "wallet_expiry_and_reservations_not_implemented": true,
+        "selected_source_accounting_sample_not_live_spendable_balance": true,
+        "signature_verified_live_events": 164
+      }
+    },
+    "payment_event_signature_verification": {
+      "status": "passed",
+      "evidence": {
+        "invalid_signature_http": 400
+      }
+    },
+    "credit_note_retry_no_second_refund": {
+      "status": "passed",
+      "evidence": {
+        "duplicate_credit_note_http": 409,
+        "credit_note_count": 1,
+        "successful_refund_cents": 100
+      }
+    },
+    "unpatched_source_image_verified": {
+      "status": "passed",
+      "evidence": {
+        "runtime_image": "autumn-local-runtime:000358ae",
+        "original_source_hashes_match": [
+          "packages/balance-engine/src/commands/finalize/unwindLock/allotUnwindValue.ts",
+          "server/src/internal/billing/v2/utils/initFullCustomerProduct/applyExisting/applyExistingStatesToCustomerProduct.ts"
+        ],
+        "reservation_lineage_patch_not_in_image": true
+      }
+    },
+    "native_full_annual_monthly_boundary": {
+      "status": "passed",
+      "evidence": {
+        "annual_boundary_cents": 13000,
+        "native_stripe_test_clock": true,
+        "intervening_monthly_paid_cents": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "one_stripe_subscription": true,
+        "final_fee_amounts": [
+          1000,
+          12000
+        ]
+      }
+    },
+    "annual_evidence_merged": {
+      "status": "passed",
+      "evidence": {
+        "annual_result_merged": true
+      }
+    },
+    "restart_preserves_billing_state_and_empty_wallet": {
+      "status": "passed",
+      "evidence": {
+        "paid_invoice_preserved": true,
+        "overage_total": 40,
+        "credit_note_preserved": true,
+        "entitlements": 0,
+        "api_ready_wait_seconds": 1.4
+      }
+    }
+  },
+  "autumn_wallet_state": {
+    "customers": 15,
+    "entitlements": 0,
+    "products": 37,
+    "autumn_balance_reservation_usage_api_calls": 0,
+    "all_customer_balances_empty": true,
+    "empty_default_plan_override_required_in_existing_org": true
+  },
+  "api_endpoints_used": {
+    "plans.create": 13,
+    "customers.get_or_create": 16,
+    "billing.multi_attach": 4,
+    "customers.get": 21,
+    "billing.attach": 21,
+    "billing.preview_attach": 2,
+    "billing.update": 2,
+    "invoices.create": 1,
+    "invoices.list": 8,
+    "invoices.issue_credit_note": 3,
+    "billing.open_customer_portal": 1,
+    "billing.setup_payment": 1
+  },
+  "native_autumn_validated": [
+    "Price-only independent product plans; one Stripe subscription and consolidated initial/recurring invoices",
+    "Anchor-preserving later product addition with immediate proration; upgrade/cancel isolation",
+    "Mixed annual/monthly initial purchase, intervening monthly renewals, and full native annual boundary",
+    "Customer-specific fixed subscription price override",
+    "Upgrade preview matched paid invoice; standalone invoice preview created no invoice",
+    "Manual credit-note preview, native credit note/refund, idempotent duplicate denial with one successful refund",
+    "Product-scoped promotion applied to an eligible order; seven-day trial conversion",
+    "Top-up purchase, failed payment handoff and paid-state sync on existing invoice recovery",
+    "Customer portal, card setup and unpaid checkout URLs; invoice PDF bytes; 3DS requires_action unpaid state"
+  ],
+  "additional_pagos_stripe_adapter_validated": [
+    "Pagos computes included allowance, frozen rate and final billable overage; subscription-scoped Stripe pending invoice items add overage to the next recurring invoice",
+    "Stripe invoice-item idempotency prevents duplicate overage charges",
+    "Immediate top-ups cannot consume subscription-scoped pending overage",
+    "Late finalized overage bills once on the next invoice; previous paid invoice stays unchanged",
+    "Direct Stripe overage lines/totals mirror back into Autumn invoice API",
+    "Stripe automatic recurring retry observed under existing sandbox account settings; same invoice recovered after payment-method replacement",
+    "Signature-verified native Stripe paid/failure/credit-note events drive a validation-only Pagos grant/refund inbox and separate sales/consumption fixture"
+  ],
+  "pagos_still_owns": [
+    "Atomic wallet admission/reserve/settle/release; source attribution and financial invariants",
+    "Monthly resets, expirations, funding order, scoped/shared eligibility, free grants and trials",
+    "Immutable usage quotes, token/provider-cost ledger, cross-product operation/component deduplication",
+    "Billing outbox with exact-money conversion, subscription-scoped overage delivery, cutoff/correction policy, idempotency and reconciliation",
+    "Paid-invoice entitlement grants, refund clawbacks, top-up thresholds/caps and alerts",
+    "Shared API/SDK, reports, migration, dashboards and operational recovery"
+  ],
+  "comparison_verdict": "Prefer Autumn over Lago Community for the current Stripe-based Model C if minimizing custom finance workflow is the priority. Native previews, customer price overrides and manual credit notes/refunds worked without an Autumn source fork or a Premium gate. Strict billing-only usage requires a Pagos-to-Stripe overage adapter; Autumn keeps the heavier tested infrastructure.",
+  "limits": [
+    "The Pagos ledger/inbox is a SQLite validation fixture, not a production wallet, SDK, expiration policy or atomic reservation implementation. Selected-source report balances are illustrative accounting samples, not current spendable balances after monthly expiry.",
+    "This test intentionally makes no Autumn balance/check/track/reservation API calls and configures no Autumn credit allowances. It does not establish a dependency-minimized deployment: balance worker, Kafka, cache roles, DynamoDB-compatible checkpoints, queues and scheduler remain in the tested stack.",
+    "The original organization had an older auto-enabled credit plan. The contaminated preliminary fixtures were excluded; current customers explicitly select an empty default plan. Production should use a clean billing-only organization/catalog or enforce this configuration.",
+    "Overages were computed by Pagos fixtures and delivered as idempotent, subscription-scoped Stripe invoice items. This is an integration we maintain, not native Autumn usage aggregation. General commitment true-ups, tax treatment and cross-product allocation are not qualified.",
+    "Carrying late usage to the next invoice was validated as a technical behavior; the finance cutoff/correction policy still needs approval before launch.",
+    "Stripe automatic payment retry was observed; production retry cadence, cancellation/grace policies, email templates/reminders and actual email delivery were not qualified. No email-delivery claim is made; credit-note send_email was false.",
+    "Checkout, setup and portal URLs were created; 3DS remained unpaid/requires_action. Full browser checkout/challenge completion was not rerun in this billing-only suite.",
+    "Tax/PO/UPI, arbitrary annual commitments, production load, multi-node failover, coordinated restore, real Pagos integration and migration/cutover remain outside this local qualification.",
+    "The local stack uses emulated queue/timer/checkpoint services; success does not establish durable production replacements. The pre-existing whole-schema validator issue from earlier investigations is not resolved by this billing suite.",
+    "Existing additive schema/SQL changes from earlier reservation testing remain in the shared local database, but this run used the original unpatched application image with zero entitlement rows for the billing-only cohort. No reservation path was used."
+  ],
+  "initial_probe_corrections": [
+    "Original runtime cold boot exceeded the local 60-second wrapper timeout; only the local readiness wrapper was extended to 180 seconds.",
+    "Preliminary customer creation inherited an old organization free-credit plan; corrected by explicit empty default and reran all core scenarios on a fresh cohort.",
+    "A promotion ID was initially passed where Autumn expects a human-readable code; a subsequent request tried to apply an Alpha-only code to an Architect-only order and was correctly rejected. The eligible Alpha+Architect multi-attach and renewal passed. These negative controls remain in local evidence."
+  ]
+}

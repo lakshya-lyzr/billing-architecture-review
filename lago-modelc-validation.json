@@ -1,0 +1,386 @@
+{
+  "date": "2026-10-21 Asia/Kolkata",
+  "architecture": "Pagos authoritative wallet; Lago billing/invoices; Stripe payment collection",
+  "lago_version": "v1.55.0",
+  "source_revision": "25b8b7b0984dae3f64b690750eaa8a8daf7af752",
+  "image_digest": "sha256:8dd75237d977b757134b062b88943b0c8c76ae135997a49c0cd2572245b9695e",
+  "premium": false,
+  "wallets_in_lago": 0,
+  "application_source_modified": false,
+  "pagos_source_modified": false,
+  "passing_checks": 28,
+  "expected_gate_denials_included": true,
+  "superseded_initial_failures": {
+    "independent_plans_initial_payment": "Initial card-import race; payment retry and subsequent wait-for-method flows passed.",
+    "fixed_base_plus_overage": "Harness reused enterprise plan/customer key; corrected enterprise_base_and_overage_input and paid renewal passed.",
+    "remaining_product_renewal": "Early invoice-count wait and incorrect expected cash amount; corrected check reconciles the automatic credit note: $20 fee less $5.32 credit = $14.68 paid."
+  },
+  "checks": {
+    "seed": {
+      "status": "passed",
+      "evidence": {
+        "metric": "lc1792539235_overage",
+        "plans": 6,
+        "webhooks": true
+      }
+    },
+    "immediate_topup": {
+      "status": "passed",
+      "evidence": {
+        "invoice": "2ca07304-4cc8-48d4-a502-42ef02f21027",
+        "cents": 500,
+        "paid": true
+      }
+    },
+    "annual_monthly_initial": {
+      "status": "passed",
+      "evidence": {
+        "initial_invoice_cents": [
+          387,
+          2400
+        ]
+      }
+    },
+    "premium_override_and_commitment_gates": {
+      "status": "passed",
+      "evidence": {
+        "plan_override_http": 403,
+        "minimum_commitment_create_http": 200,
+        "minimum_commitment_persisted": false,
+        "warning": "Community silently ignores minimum_commitment on plan creation"
+      }
+    },
+    "negotiated_catalog_plan_alternative": {
+      "status": "passed",
+      "evidence": {
+        "standard_rate": 1,
+        "negotiated_rate": 0.5,
+        "separate_catalog_plans": true
+      }
+    },
+    "initial_payment_after_method_import": {
+      "status": "passed",
+      "evidence": {
+        "paid_invoices": 3,
+        "initial_proration_cents": [
+          387,
+          500,
+          774
+        ],
+        "payment_retry_after_method_import": true
+      }
+    },
+    "enterprise_base_and_overage_input": {
+      "status": "passed",
+      "evidence": {
+        "base_invoice_cents": 1161,
+        "overage_usd": 10,
+        "duplicate_http": 422
+      }
+    },
+    "consolidated_recurring_and_rates": {
+      "status": "passed",
+      "evidence": {
+        "multi": {
+          "invoice": "237a41cb-e29c-4962-8871-b5a537777389",
+          "cents": 3000,
+          "paid": true,
+          "subscription_lines": 2,
+          "fee_amounts": [
+            2000,
+            1000
+          ]
+        },
+        "mixed": {
+          "invoice": "b7e9c41f-da1a-46e3-8f7d-0c778f8b61d8",
+          "cents": 1000,
+          "paid": true,
+          "subscription_lines": 1,
+          "fee_amounts": [
+            1000
+          ]
+        },
+        "standard": {
+          "invoice": "f355c955-6f9b-43ca-9fdd-225b27aa9797",
+          "cents": 2000,
+          "paid": true,
+          "subscription_lines": 1,
+          "fee_amounts": [
+            0,
+            2000
+          ]
+        },
+        "discount": {
+          "invoice": "5910fbf4-6e88-4803-a881-c6dbe237ad68",
+          "cents": 1000,
+          "paid": true,
+          "subscription_lines": 1,
+          "fee_amounts": [
+            1000,
+            0
+          ]
+        },
+        "enterprise_customer": {
+          "invoice": "82088b84-7a63-41b7-8ef6-0541409d94e9",
+          "cents": 4000,
+          "paid": true,
+          "subscription_lines": 1,
+          "fee_amounts": [
+            3000,
+            1000
+          ]
+        }
+      }
+    },
+    "repeated_billing_job_and_duplicate_usage": {
+      "status": "passed",
+      "evidence": {
+        "invoice_counts_before": {
+          "multi": 4,
+          "enterprise_customer": 2
+        },
+        "invoice_counts_after": {
+          "multi": 4,
+          "enterprise_customer": 2
+        },
+        "enterprise_40_usd_intents": 1
+      }
+    },
+    "manual_refund_credit_note_premium_gate": {
+      "status": "passed",
+      "evidence": {
+        "manual_credit_note_http": 403,
+        "response": {
+          "status": 403,
+          "error": "Forbidden",
+          "code": "feature_unavailable"
+        }
+      }
+    },
+    "upgrade_proration_cancel_isolation": {
+      "status": "passed",
+      "evidence": {
+        "upgrade_status": "active",
+        "paid_invoice_cents": [
+          194,
+          774,
+          387
+        ],
+        "automatic_credit_notes": 1,
+        "architect_still_active": true
+      }
+    },
+    "other_premium_gates": {
+      "status": "passed",
+      "evidence": {
+        "charge_minimum_requested": 3000,
+        "persisted": 0,
+        "noninvoiceable_requested": true,
+        "persisted_invoiceable": true,
+        "preview_http": 403
+      }
+    },
+    "scoped_commitment_community_alternative": {
+      "status": "passed",
+      "evidence": {
+        "usage_20_usd_with_30_included": 3000,
+        "usage_40_usd_with_30_included": 4000,
+        "overage_calculated_by": "Pagos fixture",
+        "not_native_minimum_commitment": true
+      }
+    },
+    "remaining_product_renewal_credit_reconciled": {
+      "status": "passed",
+      "evidence": {
+        "architect_fee_cents": 2000,
+        "automatic_credit_offset_cents": 532,
+        "stripe_collected_cents": 1468,
+        "wallet_credits_not_involved": true
+      }
+    },
+    "product_added_midcycle": {
+      "status": "passed",
+      "evidence": {
+        "new_product_after_days": 3,
+        "immediate_proration_cents": 581,
+        "next_consolidated_invoice_cents": 3000,
+        "controlled_lago_activation_timestamp": true
+      }
+    },
+    "product_scoped_promotion": {
+      "status": "passed",
+      "evidence": {
+        "gross_cents": 3000,
+        "alpha_only_discount_cents": 100,
+        "paid_cents": 2900,
+        "restricted_coupon": true
+      }
+    },
+    "trial_then_paid_billing": {
+      "status": "passed",
+      "evidence": {
+        "trial_days": 7,
+        "no_initial_charge": true,
+        "trial_end_proration_cents": 161,
+        "native_trial_billing_service": true
+      }
+    },
+    "failed_topup_then_payment_retry": {
+      "status": "passed",
+      "evidence": {
+        "failed_topup_cents": 500,
+        "retry_paid_cents": 500,
+        "successful_intents": 1,
+        "same_invoice_recovered": true,
+        "actual_customer_updated_webhook": true
+      }
+    },
+    "direct_stripe_refund_does_not_replace_credit_note": {
+      "status": "passed",
+      "evidence": {
+        "stripe_refund_cents": 100,
+        "stripe_refund_status": "succeeded",
+        "lago_invoice_total_still_cents": 500,
+        "lago_credit_note_created": false,
+        "warning": "Direct Stripe refund is not a complete Community credit-note/accounting workflow"
+      }
+    },
+    "mixed_annual_calendar_renewal": {
+      "status": "passed",
+      "evidence": {
+        "calendar_annual_boundary": true,
+        "combined_annual_monthly_cents": 13000,
+        "fee_cents": [
+          12000,
+          1000
+        ],
+        "paid": true
+      }
+    },
+    "customer_portal_checkout_pdf": {
+      "status": "passed",
+      "evidence": {
+        "portal_url_generated": true,
+        "stripe_payment_method_checkout_url_generated": true,
+        "invoice_pdf_generated": true,
+        "browser_payment_not_exercised": true
+      }
+    },
+    "paid_event_grants_dedupe_and_separate_reports": {
+      "status": "passed",
+      "evidence": {
+        "actual_invoice_events_replayed": 24,
+        "failed_events_observed": 1,
+        "grants_cents": 3900,
+        "consumption_cents": 1500,
+        "remaining_fixture_credits_cents": 2400,
+        "main_org_remaining_cents": 1900,
+        "recovered_purchase_org_remaining_cents": 500,
+        "organization_isolation": true,
+        "dedupe_by_invoice_fee_and_refund_id": true,
+        "fixture_only": true,
+        "sales_and_consumption_kept_separate": true,
+        "no_second_consumption_charge": true
+      }
+    },
+    "community_mode_no_wallet_no_pricing_units": {
+      "status": "passed",
+      "evidence": {
+        "premium": false,
+        "lago_wallets": 0,
+        "custom_pricing_unit_ignored": true,
+        "automatic_credit_notes_exist": 2
+      }
+    },
+    "worker_pause_invoice_payment_recovery": {
+      "status": "passed",
+      "evidence": {
+        "invoice_pending_during_pause": true,
+        "paid_after_resume": true,
+        "successful_intents": 1,
+        "not_disaster_recovery_test": true
+      }
+    },
+    "pdf_bytes_event_attribution_email_gate": {
+      "status": "passed",
+      "evidence": {
+        "pdf_bytes": 74689,
+        "valid_pdf_header": true,
+        "stale_tunnel_url_corrected_to_localhost": true,
+        "event_product_attribution": "alpha",
+        "lago_email_resend_http": 403
+      }
+    },
+    "automatic_dunning_gate": {
+      "status": "passed",
+      "evidence": {
+        "success": false,
+        "error_class": "BaseService::ForbiddenFailure",
+        "auto_dunning": false
+      }
+    },
+    "api_worker_recreation_persistence": {
+      "status": "passed",
+      "evidence": {
+        "paid_invoice_and_usage_survive_recreation": true,
+        "no_application_source_changes": true
+      }
+    },
+    "stripe_webhook_bad_signature_rejected": {
+      "status": "passed",
+      "evidence": {
+        "http": 400
+      }
+    }
+  },
+  "webhook_type_counts": {
+    "billable_metric.created": 1,
+    "plan.created": 11,
+    "customer.created": 13,
+    "subscription.started": 16,
+    "invoice.created": 34,
+    "invoice.one_off_created": 3,
+    "invoice.payment_status_updated": 34,
+    "invoice.generated": 32,
+    "subscription.updated": 2,
+    "subscription.terminated": 2,
+    "credit_note.created": 2,
+    "credit_note.generated": 2,
+    "subscription.trial_ended": 1,
+    "invoice.payment_failure": 1
+  },
+  "premium_required_native": [
+    "Manual credit notes and Lago-managed arbitrary refunds/corrections",
+    "Subscription plan/charge price overrides",
+    "Native plan-level minimum commitments and charge minimums",
+    "Invoice previews",
+    "Lago invoice email send/resend",
+    "Automated dunning (commercial auto_dunning integration)",
+    "Custom pricing units and noninvoiceable metered charges"
+  ],
+  "community_alternatives_validated": [
+    "Separate catalog plans for negotiated rates",
+    "Fixed subscription fee plus Pagos-calculated billable overage for agreed $30/30-credit commitment",
+    "One-off add-on invoices for immediate credit purchases; grants applied by Pagos only after confirmed payment",
+    "Pagos reporting fixture joins paid invoice lines, product-tagged consumption and separately reconciled Stripe refunds"
+  ],
+  "wallet_features_outside_lago": [
+    "Atomic reserves and settlements",
+    "Monthly resets, grant expiry and spending priority",
+    "Restricted/shared grant eligibility, free grants, trials and top-up thresholds",
+    "Quote snapshots, provider cost evidence, cross-product deduplication, durable product SDK and outbox"
+  ],
+  "limits": [
+    "No Premium license was available: gated Premium flows were denied/audited, not enabled or validated.",
+    "Renewals used normal Lago billing services/jobs at explicit timestamps, not Stripe Billing subscriptions or Stripe test clocks. Native Stripe sandbox PaymentIntents were observed succeeded.",
+    "Calendar billing in UTC was chosen. Initial invoices prorated: $3.87 Alpha and $7.74 Architect; three-day-later Architect starts at $5.81. Annual plan aligns to January 1. Anniversary alignment and other timezones need separate qualification.",
+    "The $30 base plus Pagos overage is the agreed scoped commitment, not a general native minimum-spend true-up engine.",
+    "The grant inbox and sales/consumption ledger are validation-only SQLite fixtures, not production Pagos implementation.",
+    "Checkout and portal URLs generated; browser checkout/3DS challenge completion not exercised in this Lago suite.",
+    "Tax/PO/UPI, arbitrary annual commitments, production load, HA/failover, coordinated restore, full migration and end-to-end SDK integration not qualified.",
+    "Manually refunding Stripe does not create a Lago credit note; custom refunds require an approved accounting and reconciliation process.",
+    "Invoice PDF download verified as PDF bytes after correcting stale public tunnel URL and enabling local HTTP settings. Private webhook URLs allowed only by local Compose override.",
+    "Wallet grant policy for prorated, discounted or credit-offset invoices must be specified by Pagos; money collected is not automatically the amount of product credit entitlement."
+  ],
+  "verdict": "Lago Community supports tested core Model C billing with Pagos-owned wallet and explicit alternatives, without source patches. It does not provide the complete native refund/correction/preview/email/dunning experience without Premium."
+}
